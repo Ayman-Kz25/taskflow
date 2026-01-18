@@ -1,0 +1,109 @@
+@import 'tailwindcss';
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+:root {
+    --primary: #81b29a;
+    --secondary: #f4acb7;
+    --bg: #f8edeb;
+}
+
+* {
+    @apply box-border;
+    font-family: "Poppins", sans-serif;
+}
+
+html {
+    @apply scroll-smooth;
+}
+
+header {
+    @apply w-full h-20 bg-[var(--primary)] flex items-center justify-between px-8 sticky top-0 z-40 drop-shadow-lg;
+}
+
+.logo {
+    @apply text-[36px] text-[var(--bg)] font-semibold tracking-tight cursor-pointer;
+}
+
+.cta {
+    @apply bg-[var(--secondary)] border-3 border-[var(--bg)] text-white px-4 py-2 rounded text-sm hover:scale-105 transition-all duration-300 cursor-pointer;
+}
+
+.sidebar {
+    @apply w-56 bg-[var(--secondary)] border-r pt-10 px-2 sticky top-20 h-[calc(100vh-3.5rem)];
+}
+
+nav {
+    @apply space-y-1;
+}
+
+nav p {
+    @apply mb-1 ml-1 mt-6 text-xl font-semibold uppercase text-[var(--bg)];
+}
+
+.container {
+    @apply h-screen flex flex-col bg-gray-50;
+}
+
+.task-container {
+    @apply fixed inset-0 bg-black/40 flex items-center justify-center z-50;
+}
+
+.task-modal {
+    @apply bg-[var(--bg)] w-full max-w-md rounded-lg p-6;
+}
+
+.task-modal .title {
+    @apply text-xl font-semibold mb-6 text-center text-[var(--primary)];
+}
+
+.add-input {
+    @apply w-full border-2 border-[var(--secondary)] rounded px-3 py-2 outline-0 placeholder:text-gray-500 text-gray-500;
+}
+
+option {
+    @apply text-gray-700 bg-[var(--bg)] border-none outline-none;
+}
+
+.btn-container {
+    @apply flex justify-end gap-3;
+}
+
+.cancel-btn {
+    @apply px-4 py-2 rounded border-2 border-[var(--primary)] text-gray-600 cursor-pointer hover:bg-[var(--secondary)] hover:border-[var(--secondary)] hover:text-[var(--bg)];
+}
+
+.btn {
+    @apply px-4 py-2 bg-[var(--primary)] text-[var(--bg)] rounded cursor-pointer hover:bg-[var(--secondary)] transition-all duration-300;
+}
+
+.msg {
+    @apply text-sm text-gray-500 mb-6;
+}
+
+.task-card {
+    @apply bg-[var(--bg)] p-4 rounded-lg shadow-sm border border-[var(--secondary)] flex justify-between items-center;
+}
+
+.title {
+    @apply text-lg font-[600];
+}
+
+.category {
+    @apply text-gray-600 font-semibold my-2;
+}
+
+.edit-btn {
+    @apply rounded bg-[var(--primary)] text-[var(--bg)] px-2 py-1 text-xs cursor-pointer hover:scale-105;
+}
+
+.del-btn {
+    @apply bg-red-400 rounded text-[var(--bg)] px-2 py-1 text-xs cursor-pointer hover:scale-105;
+}
+
+.desc {
+    @apply text-gray-800 my-3 text-sm;
+}
+
+.filter-box {
+    @apply border border-[var(--primary)] text-gray-600 outline-0 rounded px-3 py-2;
+}
