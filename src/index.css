@@ -60,8 +60,14 @@ nav p {
     @apply w-full border-2 border-[var(--secondary)] rounded px-3 py-2 outline-0 placeholder:text-gray-500 text-gray-500;
 }
 
-option {
-    @apply text-gray-700 bg-[var(--bg)] border-none outline-none;
+@layer base {
+  select {
+    @apply bg-white text-gray-700 rounded-md px-3 py-2 outline-0;
+  }
+
+  select:focus {
+    @apply ring-2 ring-[var(--secondary)];
+  }
 }
 
 .btn-container {
