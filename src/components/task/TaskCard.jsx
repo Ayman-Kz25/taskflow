@@ -2,7 +2,7 @@ import { format, isPast, isToday, isValid } from "date-fns";
 
 const statusColors = {
   todo: "bg-gray-100 text-gray-700",
-  "in-progress": "bg-rose-100 text-rose-700",
+  "in-progress": "bg-violet-100 text-violet-700",
   completed: "bg-blue-100 text-blue-700",
 };
 
