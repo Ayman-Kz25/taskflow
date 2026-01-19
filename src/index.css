@@ -21,7 +21,7 @@ header {
 }
 
 .logo {
-    @apply text-[36px] text-[var(--bg)] font-semibold tracking-tight cursor-pointer;
+    @apply text-[36px] text-[var(--bg)] font-semibold tracking-wide cursor-pointer;
 }
 
 .cta {

@@ -16,7 +16,7 @@ const Header = () => {
           onClick={() => setIsAddModalOpen(true)}
           className="btn cta"
         >
-          + Add Task
+          ➕ Add Task
         </button>
       </header>
 

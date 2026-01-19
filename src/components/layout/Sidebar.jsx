@@ -12,15 +12,15 @@ const Sidebar = () => {
     <aside className="sidebar">
       <nav>
         <NavLink to="/" className={linkClass}>
-          All Tasks
+          ⚙️ All Tasks
         </NavLink>
 
         <NavLink to="/in-progress" className={linkClass}>
-          In Progress
+          ⌛ In Progress
         </NavLink>
 
         <NavLink to="/completed" className={linkClass}>
-          Completed
+          ✅ Completed
         </NavLink>
 
         <div className="mt-4">
@@ -29,21 +29,21 @@ const Sidebar = () => {
           </p>
 
           <NavLink to="/category/work" className={linkClass}>
-            Work
+            💼 Work
           </NavLink>
 
           <NavLink to="/category/personal" className={linkClass}>
-            Personal
+            📌 Personal
           </NavLink>
 
           <NavLink to="/category/study" className={linkClass}>
-            Study
+            🗂️ Study
           </NavLink>
         </div>
 
         <div className="mt-4">
           <NavLink to="/calendar" className={linkClass}>
-            Calendar
+            🗓️ Calendar
           </NavLink>
         </div>
       </nav>

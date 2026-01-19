@@ -1,87 +1,118 @@
-import { useState } from "react";
+// pages/CategoryPage.jsx
+import { useState, useMemo } from "react";
+import { useParams } from "react-router-dom";
 import { useTasks } from "../context/TaskContext";
 import TaskList from "../components/task/TaskList";
-import AddTaskModal from "../components/task/AddTaskModal";
+import FilterBar from "../components/filters/FilterBar";
 import EditTaskModal from "../components/task/EditTaskModal";
 import ConfirmDeleteModal from "../components/task/ConfirmDeleteModal";
-import FilterBar from "../components/filters/FilterBar";
+import EmptyState from "../components/ui/EmptyState";
+import { isToday, isPast } from "date-fns";
 
-const DashboardPage = () => {
+const CategoryPage = () => {
+  const { category } = useParams(); // work | personal | study
   const { tasks, deleteTask } = useTasks();
 
   const [filters, setFilters] = useState({
     status: "",
-    category: "",
     priority: "",
     due: "",
   });
 
   const [selectedTask, setSelectedTask] = useState(null);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
-  // Handle Edit
+  // 🔹 Edit handler
   const handleEdit = (task) => {
     setSelectedTask(task);
-    setIsEditModalOpen(true);
+    setIsEditOpen(true);
   };
 
-  // Handle Delete
+  // 🔹 Delete handler
   const handleDelete = (task) => {
     setSelectedTask(task);
-    setIsDeleteModalOpen(true);
+    setIsDeleteOpen(true);
   };
 
   const confirmDelete = () => {
     if (selectedTask) {
       deleteTask(selectedTask.id);
-      setIsDeleteModalOpen(false);
+      setIsDeleteOpen(false);
       setSelectedTask(null);
     }
   };
 
-  // Filter tasks
-  const filteredTasks = tasks.filter((task) => {
-    let match = true;
-    if (filters.status) match = match && task.status === filters.status;
-    if (filters.category) match = match && task.category === filters.category;
-    if (filters.priority)
-      match = match && (task.priority || "medium") === filters.priority;
-    if (filters.due && task.dueDate) {
-      const dueDate = new Date(task.dueDate.seconds * 1000);
-      if (filters.due === "overdue")
-        match = match && dueDate < new Date() && task.status !== "completed";
-      if (filters.due === "today")
-        match = match && dueDate.toDateString() === new Date().toDateString();
-      if (filters.due === "upcoming") match = match && dueDate > new Date();
-    }
-    return match;
-  });
+  // 🔹 Filter tasks
+  const filteredTasks = useMemo(() => {
+    return tasks.filter((task) => {
+      let pass = true;
+
+      // Category from route
+      if (category) {
+        pass =
+          pass &&
+          task.category?.toLowerCase() === category.toLowerCase();
+      }
+
+      if (filters.status) {
+        pass = pass && task.status === filters.status;
+      }
+
+      if (filters.priority) {
+        pass = pass && task.priority === filters.priority;
+      }
+
+      if (filters.due) {
+        if (!task.dueDate) return false;
+
+        const due = task.dueDate.seconds
+          ? new Date(task.dueDate.seconds * 1000)
+          : new Date(task.dueDate);
+
+        if (filters.due === "today") pass = pass && isToday(due);
+        if (filters.due === "overdue")
+          pass = pass && isPast(due) && task.status !== "completed";
+        if (filters.due === "upcoming")
+          pass = pass && !isPast(due) && !isToday(due);
+      }
+
+      return pass;
+    });
+  }, [tasks, category, filters]);
 
   return (
     <div>
-      <h2 className="text-lg font-semibold mb-4">All Tasks</h2>
+      <h2 className="text-lg font-semibold mb-4 capitalize">
+        {category} Tasks
+      </h2>
+
+      {/* Filters (NO category dropdown) */}
       <FilterBar filters={filters} setFilters={setFilters} />
-      {/* TaskList with onEdit and onDelete passed down */}
-      <TaskList
-        tasks={filteredTasks}
-        onEdit={handleEdit}
-        onDelete={handleDelete}
-      />
-      Modals
-      <AddTaskModal isOpen={false} onClose={() => {}} />{" "}
-      {/* This can be controlled from Header */}
+
+      {filteredTasks.length > 0 ? (
+        <TaskList
+          tasks={filteredTasks}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+        />
+      ) : (
+        <EmptyState />
+      )}
+
+      {/* Modals */}
       {selectedTask && (
         <EditTaskModal
           task={selectedTask}
-          isOpen={isEditModalOpen}
-          onClose={() => setIsEditModalOpen(false)}
+          isOpen={isEditOpen}
+          onClose={() => setIsEditOpen(false)}
         />
       )}
+
       {selectedTask && (
         <ConfirmDeleteModal
-          isOpen={isDeleteModalOpen}
-          onClose={() => setIsDeleteModalOpen(false)}
+          isOpen={isDeleteOpen}
+          onClose={() => setIsDeleteOpen(false)}
           onConfirm={confirmDelete}
           taskTitle={selectedTask.title}
         />
@@ -90,4 +121,4 @@ const DashboardPage = () => {
   );
 };
 
-export default DashboardPage;
+export default CategoryPage;
