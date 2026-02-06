@@ -10,7 +10,7 @@ const FilterBar = ({ filters, setFilters }) => {
   };
 
   return (
-    <div className="flex gap-4 mb-4">
+    <div className="flex flex-wrap justify-center md:justify-start gap-4 mb-4">
       {/* Status Filter */}
       <select
         value={filters.status}

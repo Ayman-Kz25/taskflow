@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useTasks } from "../../context/TaskContext";
 import { Timestamp } from "firebase/firestore";
 
 const AddTaskModal = ({ isOpen, onClose }) => {
+
   const { addTask } = useTasks();
 
   const [title, setTitle] = useState("");
@@ -11,7 +12,7 @@ const AddTaskModal = ({ isOpen, onClose }) => {
   const [dueDate, setDueDate] = useState("");
   const [loading, setLoading] = useState(false);
 
-  if (!isOpen) return null;
+  // if (!isOpen) return null;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,7 +27,7 @@ const AddTaskModal = ({ isOpen, onClose }) => {
         category,
         status: "todo",
         dueDate: dueDate ? Timestamp.fromDate(new Date(dueDate)) : null,
-        priority: "medium"
+        priority: "medium",
       });
 
       // Reset form
@@ -45,67 +46,65 @@ const AddTaskModal = ({ isOpen, onClose }) => {
   };
 
   return (
-    <div className="task-container">
-      <div className="task-modal">
-        <h2 className="title">Add New Task</h2>
+    isOpen && (
+      <div className="task-container">
+        <div className="task-modal">
+          <h2 className="title">Add New Task</h2>
 
-        <form className="space-y-4" onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="Task title"
-            className="add-input"
-            value={title}
-            onChange={e => setTitle(e.target.value)}
-            required
-          />
+          <form className="space-y-4" onSubmit={handleSubmit}>
+            <input
+              type="text"
+              placeholder="Task title"
+              className="add-input"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              required
+            />
 
-          <textarea
-            placeholder="Description (optional)"
-            className="add-input"
-            value={description}
-            onChange={e => setDescription(e.target.value)}
-          />
+            <textarea
+              placeholder="Description (optional)"
+              className="add-input"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
 
-          <select
-            className="add-input"
-            value={category}
-            onChange={e => setCategory(e.target.value)}
-            required
-          >
-            <option value="">Please Select</option>
-            <option value="Work">Work</option>
-            <option value="Personal">Personal</option>
-            <option value="Study">Study</option>
-          </select>
-
-          <input
-            type="date"
-            className="add-input"
-            value={dueDate}
-            required
-            onChange={e => setDueDate(e.target.value)}
-          />
-
-          <div className="btn-container">
-            <button
-              type="button"
-              onClick={onClose}
-              className="cancel-btn"
-              disabled={loading}
+            <select
+              className="add-input"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              required
             >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="btn"
-              disabled={loading}
-            >
-              {loading ? "Adding..." : "Add Task"}
-            </button>
-          </div>
-        </form>
+              <option value="">Please Select</option>
+              <option value="Work">Work</option>
+              <option value="Personal">Personal</option>
+              <option value="Study">Study</option>
+            </select>
+
+            <input
+              type="date"
+              className="add-input"
+              value={dueDate}
+              required
+              onChange={(e) => setDueDate(e.target.value)}
+            />
+
+            <div className="btn-container">
+              <button
+                type="button"
+                onClick={onClose}
+                className="cancel-btn"
+                disabled={loading}
+              >
+                Cancel
+              </button>
+              <button type="submit" className="btn" disabled={loading}>
+                {loading ? "Adding..." : "Add Task"}
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
+    )
   );
 };
 
