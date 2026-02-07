@@ -1,15 +1,27 @@
 import { useState } from "react";
 import AddTaskModal from "../task/AddTaskModal";
 
-const Header = () => {
+const Header = ({onToggleSidebar}) => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   return (
     <>
       <header>
-        <h1 className="logo">
-          TaskFlow
-        </h1>
+        <div className="flex items-center gap-4">
+          {/* Hamburger button for mobile */}
+          <button
+            type="button"
+            className="md:hidden text-[var(--bg)] text-2xl"
+            onClick={onToggleSidebar}
+            aria-label="Toggle sidebar"
+          >
+            🟰
+          </button>
+
+          <h1 className="logo text-[24px] md:text-[36px]">
+            TaskFlow
+          </h1>
+        </div>
 
         <button
           type="button"

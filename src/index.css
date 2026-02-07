@@ -29,7 +29,7 @@ header {
 }
 
 .sidebar {
-    @apply hidden md:w-56 bg-[var(--secondary)] border-r pt-10 px-2 sticky top-20 h-[calc(100vh-3.5rem)];
+    @apply fixed top-0 left-0 w-64 bg-[var(--secondary)] border-r px-2 pt-10 h-full  z-50 transform transition-transform duration-300 md:relative md:translate-x-0  md:top-0 md:h-[calc(100vh-4rem)];
 }
 
 nav {
