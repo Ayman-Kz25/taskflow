@@ -26,6 +26,7 @@ const Sidebar = ({ isOpen, isClose }) => {
             ❌
           </button>
         </div>
+        {/* Desktop View */}
         <nav className="px-4 pb-6">
           <NavLink to="/" end className={linkClass}>
             ⚙️ All Tasks
